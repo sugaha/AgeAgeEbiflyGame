@@ -29,7 +29,7 @@ var gameScene = cc.Scene.extend({
     //bgm再生
     if (!audioEngine.isMusicPlaying()) {
       //audioEngine.playMusic("res/bgm_main.mp3", true);
-      audioEngine.playMusic(res.bgm_main, true);
+      audioEngine.playMusic(res.bgm_main_mp3, true);
     }
   },
 
@@ -54,7 +54,7 @@ var game = cc.Layer.extend({
     }, this)
 
     //スクロールする背景スプライトをインスタンス　スクロール速度:scrollSpeed
-    background = new ScrollingBG();
+    background = new ScrollingBGM();
     this.addChild(background);
 
     ship = new Ship();
@@ -63,14 +63,14 @@ var game = cc.Layer.extend({
     //scheduleUpdate関数は、描画の都度、update関数を呼び出す
     this.scheduleUpdate();
     //小惑星の生成で追加
-    this.schedule(this.addAsteroid, 0.5);
+    this.schedule(this.addAsteroid, 0.9);
     //ここからパーティクルの設定
     emitter = cc.ParticleSun.create();
     this.addChild(emitter, 1);
-    var myTexture = cc.textureCache.addImage(res.particle_png);
+    var myTexture = cc.textureCache.addImage(res.awa_png);
     emitter.setTexture(myTexture);
     emitter.setStartSize(2);
-    emitter.setEndSize(4);
+    emitter.setEndSize(5);
 
   },
   update: function(dt) {
@@ -117,7 +117,7 @@ var game = cc.Layer.extend({
 });
 
 //スクロール移動する背景クラス
-var ScrollingBG = cc.Sprite.extend({
+var ScrollingBGM = cc.Sprite.extend({
   //ctorはコンストラクタ　クラスがインスタンスされたときに必ず実行される
   ctor: function() {
     this._super();
@@ -184,12 +184,12 @@ var Ship = cc.Sprite.extend({
 var Asteroid = cc.Sprite.extend({
   ctor: function() {
     this._super();
-    this.initWithFile(res.asteroid_png);
+    this.initWithFile(res.nagoya4_png);
   },
   onEnter: function() {
     this._super();
     this.setPosition(600, Math.random() * 320);
-    var moveAction = cc.MoveTo.create(2.5, new cc.Point(-100, Math.random() * 320));
+    var moveAction = cc.MoveTo.create(5.5, new cc.Point(-100, Math.random() * 320));
     this.runAction(moveAction);
     this.scheduleUpdate();
   },
@@ -204,7 +204,7 @@ var Asteroid = cc.Sprite.extend({
       audioEngine.setEffectsVolume(audioEngine.getEffectsVolume() + 0.3);
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
-      audioEngine.playEffect(res.se_bang);
+      audioEngine.playEffect(res.se_decide_mp3);
       //bgmの再生をとめる
       if (audioEngine.isMusicPlaying()) {
         audioEngine.stopMusic();
