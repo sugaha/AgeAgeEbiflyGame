@@ -16,7 +16,8 @@ var gameThrust = 0.1;
 var emitter;
 var　 audioEngine;
 
-var gameScene = cc.Scene.extend({
+
+var gameScene = cc.Layer.extend({
 
   onEnter: function() {
     this._super();
@@ -227,3 +228,14 @@ function restartGame() {
     audioEngine.resumeMusic();
   }
 }
+
+var NextScene = cc.Scene.extend({
+    onEnter: function() {
+        this._super();
+        var layer1 = new gameScene();
+        this.addChild(layer1);
+        var layer2 = new game();
+        this.addChild(layer2);
+        
+    }
+});
