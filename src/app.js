@@ -7,6 +7,8 @@ var mylabel;
 var gameLayer;
 var background;
 var scrollSpeed = 1;
+var scoreText;
+var miss = 3;
 //宇宙船で追加した部分　重力
 var ship;
 var gameGravity = -0.05;
@@ -41,6 +43,13 @@ var game = cc.Layer.extend({
   init: function() {
     this._super();
     size = cc.director.getWinSize();
+
+    var gradient = cc.LayerGradient.create(cc.color(0,0,0,255), cc.color(0x46,0x82,0xB4,255));
+        this.addChild(gradient);
+        scoreText = cc.LabelTTF.create("Miss: 3","Arial","32",cc.TEXT_ALIGNMENT_CENTER);
+        this.addChild(scoreText);
+        scoreText.setPosition(10,10);
+
     //BGMと効果音のエンジンを追加
 
     //宇宙船を操作するで追加した部分
@@ -203,6 +212,10 @@ var Asteroid = cc.Sprite.extend({
       gameLayer.removeAsteroid(this); //小惑星を削除する
       //ボリュームを上げる
       audioEngine.setEffectsVolume(audioEngine.getEffectsVolume() + 0.3);
+
+      miss--;
+      scoreText.setString("Miss: "-miss);
+      checkMiss();
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
       audioEngine.playEffect(res.se_decide_mp3);
@@ -229,6 +242,14 @@ function restartGame() {
   }
 }
 
+function checkMiss(){
+
+            if(miss == 0){
+              cc.director.runScene(new thirdScean());
+            }
+}
+
+
 var NextScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
@@ -236,6 +257,6 @@ var NextScene = cc.Scene.extend({
         this.addChild(layer1);
         var layer2 = new game();
         this.addChild(layer2);
-        
+
     }
 });

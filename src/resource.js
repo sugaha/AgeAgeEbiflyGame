@@ -8,7 +8,7 @@ var res = {
     coral_above_png : "res/coral_above.png",
     coral_under_png : "res/coral_under.png",
     Death_mp3 : "res/Death.mp3",
-    gameover_png : "res/gameover_png",
+    gameover_png : "res/gameover.png",
     go_png : "res/go.png",
     land_png : "res/land.png",
     nagoya0_png : "res/nagoya0.png",
