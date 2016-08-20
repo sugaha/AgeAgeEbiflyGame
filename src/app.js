@@ -6,6 +6,11 @@ var mylabel;
 //背景スクロールで追加した部分
 var gameLayer;
 var background;
+var ceiling;
+var land;
+var rock_above;
+var rock_under;
+
 var scrollSpeed = 1;
 var scoreText;
 var miss = 3;
@@ -44,11 +49,11 @@ var game = cc.Layer.extend({
     this._super();
     size = cc.director.getWinSize();
 
-    var gradient = cc.LayerGradient.create(cc.color(0,0,0,255), cc.color(0x46,0x82,0xB4,255));
-        this.addChild(gradient);
-        scoreText = cc.LabelTTF.create("Miss: 3","Arial","32",cc.TEXT_ALIGNMENT_CENTER);
+    var gradient =
+
+        scoreText = cc.LabelTTF.create("残機: 3","Arial","32",cc.TEXT_ALIGNMENT_CENTER);
         this.addChild(scoreText);
-        scoreText.setPosition(10,10);
+        scoreText.setPosition(50,20);
 
     //BGMと効果音のエンジンを追加
 
@@ -66,6 +71,20 @@ var game = cc.Layer.extend({
     //スクロールする背景スプライトをインスタンス　スクロール速度:scrollSpeed
     background = new ScrollingBGM();
     this.addChild(background);
+
+    rock_above = new ScrollingRA();
+    this.addChild(rock_above);
+
+    rock_under = new ScrollingRU();
+    this.addChild(rock_under);
+
+
+    ceiling = new ScrollingCL();
+    this.addChild(ceiling);
+
+    land = new ScrollingLD();
+    this.addChild(land);
+
 
     ship = new Ship();
     this.addChild(ship);
@@ -149,6 +168,95 @@ var ScrollingBGM = cc.Sprite.extend({
   }
 });
 
+var ScrollingRA = cc.Sprite.extend({
+  //ctorはコンストラクタ　クラスがインスタンスされたときに必ず実行される
+  ctor: function() {
+    this._super();
+    this.initWithFile(res.rock_above_png);
+  },
+  //onEnterメソッドはスプライト描画の際に必ず呼ばれる
+  onEnter: function() {
+    //背景画像の描画開始位置 横960の画像の中心が、画面の端に設置される
+    this.setPosition(size.width, size.height / 1.1);
+    //  this.setPosition(480,160);
+  },
+  scroll: function() {
+    //座標を更新する
+    this.setPosition(this.getPosition().x - scrollSpeed - 2, this.getPosition().y);
+    //画面の端に到達したら反対側の座標にする
+    if (this.getPosition().x < 0) {
+      this.setPosition(this.getPosition().x + 480, this.getPosition().y);
+    }
+  }
+});
+
+var ScrollingRU = cc.Sprite.extend({
+  //ctorはコンストラクタ　クラスがインスタンスされたときに必ず実行される
+  ctor: function() {
+    this._super();
+    this.initWithFile(res.rock_under_png);
+  },
+  //onEnterメソッドはスプライト描画の際に必ず呼ばれる
+  onEnter: function() {
+    //背景画像の描画開始位置 横960の画像の中心が、画面の端に設置される
+    this.setPosition(size.width, size.height / 14);
+    //  this.setPosition(480,160);
+  },
+  scroll: function() {
+    //座標を更新する
+    this.setPosition(this.getPosition().x - scrollSpeed - 2, this.getPosition().y);
+    //画面の端に到達したら反対側の座標にする
+    if (this.getPosition().x < 0) {
+      this.setPosition(this.getPosition().x + 480, this.getPosition().y);
+    }
+  }
+});
+
+var ScrollingCL = cc.Sprite.extend({
+  //ctorはコンストラクタ　クラスがインスタンスされたときに必ず実行される
+  ctor: function() {
+    this._super();
+    this.initWithFile(res.ceiling_png);
+  },
+  //onEnterメソッドはスプライト描画の際に必ず呼ばれる
+  onEnter: function() {
+    //背景画像の描画開始位置 横960の画像の中心が、画面の端に設置される
+    this.setPosition(size.width, size.height / 1);
+    //  this.setPosition(480,160);
+  },
+  scroll: function() {
+    //座標を更新する
+    this.setPosition(this.getPosition().x - scrollSpeed - 2, this.getPosition().y);
+    //画面の端に到達したら反対側の座標にする
+    if (this.getPosition().x < 0) {
+      this.setPosition(this.getPosition().x + 480, this.getPosition().y);
+    }
+  }
+});
+
+var ScrollingLD = cc.Sprite.extend({
+  //ctorはコンストラクタ　クラスがインスタンスされたときに必ず実行される
+  ctor: function() {
+    this._super();
+    this.initWithFile(res.land_png);
+  },
+  //onEnterメソッドはスプライト描画の際に必ず呼ばれる
+  onEnter: function() {
+    //背景画像の描画開始位置 横960の画像の中心が、画面の端に設置される
+    this.setPosition(size.width, 0.5);
+    //  this.setPosition(480,160);
+  },
+  scroll: function() {
+    //座標を更新する
+    this.setPosition(this.getPosition().x - scrollSpeed - 2, this.getPosition().y);
+    //画面の端に到達したら反対側の座標にする
+    if (this.getPosition().x < 0) {
+      this.setPosition(this.getPosition().x + 480, this.getPosition().y);
+    }
+  }
+});
+
+
 //重力（仮）で落下する　宇宙船　
 var Ship = cc.Sprite.extend({
   ctor: function() {
@@ -214,7 +322,7 @@ var Asteroid = cc.Sprite.extend({
       audioEngine.setEffectsVolume(audioEngine.getEffectsVolume() + 0.3);
 
       miss--;
-      scoreText.setString("Miss: "-miss);
+      scoreText.setString("残機: "-miss);
       checkMiss();
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
@@ -246,6 +354,7 @@ function checkMiss(){
 
             if(miss == 0){
               cc.director.runScene(new thirdScean());
+              miss = 3;
             }
 }
 
