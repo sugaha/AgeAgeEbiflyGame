@@ -41,7 +41,7 @@ var gameScene = cc.Layer.extend({
     //bgm再生
     if (!audioEngine.isMusicPlaying()) {
       //audioEngine.playMusic("res/bgm_main.mp3", true);
-      audioEngine.playMusic(res.bgm_main_mp3, true);
+      audioEngine.playMusic(res.umi_mp3, true);
     }
   },
 
@@ -416,11 +416,9 @@ var Enemy = cc.Sprite.extend({
       checkMiss();
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
-      audioEngine.playEffect(res.se_decide_mp3);
+      audioEngine.playEffect(res.se_surprise_mp3);
       //bgmの再生をとめる
-      if (audioEngine.isMusicPlaying()) {
-        audioEngine.stopMusic();
-      }
+
       restartGame();
     }
     //画面の外にでた小惑星を消去する処理
@@ -458,11 +456,9 @@ var Enemy2 = cc.Sprite.extend({
       checkMiss();
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
-      audioEngine.playEffect(res.se_decide_mp3);
+      audioEngine.playEffect(res.se_surprise_mp3);
       //bgmの再生をとめる
-      if (audioEngine.isMusicPlaying()) {
-        audioEngine.stopMusic();
-      }
+
       restartGame();
     }
     //画面の外にでた小惑星を消去する処理
@@ -477,9 +473,9 @@ function restartGame() {
   ship.setPosition(ship.getPosition().x, 160);
   ship.invulnerability = 100;
   //bgmリスタート
-  if (!audioEngine.isMusicPlaying()) {
+  /*if (!audioEngine.isMusicPlaying()) {
     audioEngine.resumeMusic();
-  }
+  }*/
 }
 
 
@@ -487,7 +483,12 @@ function checkMiss(){
 
             if(miss == -1){
               cc.director.runScene(new thirdScean());
+              if (audioEngine.isMusicPlaying()) {
+                audioEngine.stopMusic();
+              }
               miss = 3;
+              point = 0;
+
             }
 }
 

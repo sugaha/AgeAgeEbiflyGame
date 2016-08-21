@@ -5,14 +5,29 @@ var MyLayer = cc.Layer.extend({
 
         var size = cc.director.getWinSize();
 
+        //音楽再生エンジン
+        audioEngine = cc.audioEngine;
+        //bgm再生
+        if (!audioEngine.isMusicPlaying()) {
+          //audioEngine.playMusic("res/bgm_main.mp3", true);
+          audioEngine.playMusic(res.umi_mp3, true);
+        }
+
+                var TitleBG =
+                cc.Sprite.create(res.TitleBG_png);
+                TitleBG.setPosition(size.width / 2, size.height /1.8);
+                TitleBG.setScale(0.8);
+                this.addChild(TitleBG, 0);
+
                 var Title = cc.Sprite.create(res.Title_png);
                 Title.setPosition(size.width / 2, size.height /1.5);
                 Title.setScale(0.8);
                 this.addChild(Title, 0);
 
-        var label = cc.LabelTTF.create("クリックしてスタート", "Arial", 20);
-        label.setPosition(size.width / 2, size.height / 3.5);
-        this.addChild(label, 1);
+                var Ready = cc.Sprite.create(res.ready_png);
+                Ready.setPosition(size.width / 2.1, size.height /3.3);
+                Ready.setScale(0.8);
+                this.addChild(Ready, 0);
 
 
         // タップイベントリスナーを登録する
