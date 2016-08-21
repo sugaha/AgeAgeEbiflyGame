@@ -304,7 +304,7 @@ var Zanki = cc.Layer.extend({
 
         scoreText = cc.LabelTTF.create("残機: 3","Arial","32",cc.TEXT_ALIGNMENT_CENTER);
         this.addChild(scoreText);
-        scoreText.setPosition(50,20);
+        scoreText.setPosition(60,20);
 
     }
 });
@@ -315,7 +315,7 @@ var Score = cc.Layer.extend({
 
         pointText = cc.LabelTTF.create("SCORE: 0","Arial","32",cc.TEXT_ALIGNMENT_CENTER);
         this.addChild(pointText);
-        pointText.setPosition(200,20);
+        pointText.setPosition(250,20);
 
     }
 });
@@ -514,7 +514,7 @@ var Enemy = cc.Sprite.extend({
       checkMiss();
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
-      audioEngine.playEffect(res.se_surprise_mp3);
+      audioEngine.playEffect(res.butuke_mp3);
       //bgmの再生をとめる
 
       restartGame();
@@ -554,7 +554,7 @@ var Enemy2 = cc.Sprite.extend({
       checkMiss();
       //効果音を再生する
     //  audioEngine.playEffect("res/se_bang.mp3");
-      audioEngine.playEffect(res.se_surprise_mp3);
+      audioEngine.playEffect(res.butuke_mp3);
       //bgmの再生をとめる
 
       restartGame();

@@ -6,6 +6,8 @@ var res = {
     GOBG_png : "res/GOBG.png",
     umi_mp3 : "res/umi.mp3",
     umi2_mp3 : "res/umi02.mp3",
+    butuke_mp3 : "res/butuke.mp3",
+    nangoku_mp3 : "res/nangoku.mp3",
     bgm_main_mp3 : "res/bgm_main.mp3",
     bgm_title_mp3 : "res/bgm_title.mp3",
     ceiling_png : "res/ceiling.png",

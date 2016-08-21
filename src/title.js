@@ -10,7 +10,7 @@ var MyLayer = cc.Layer.extend({
         //bgm再生
         if (!audioEngine.isMusicPlaying()) {
           //audioEngine.playMusic("res/bgm_main.mp3", true);
-          audioEngine.playMusic(res.umi_mp3, true);
+          audioEngine.playMusic(res.nangoku_mp3, true);
         }
 
                 var TitleBG =
@@ -49,6 +49,9 @@ var MyLayer = cc.Layer.extend({
     onTouchEnded: function(touch, event) {
         // 次のシーンに切り替える
         cc.director.runScene(new NextScene());
+        if (audioEngine.isMusicPlaying()) {
+          audioEngine.stopMusic();
+        }
     },
 });
 
